@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>StudySpots - UB</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 class="display-1">UB</h1>
+
+      <div class="row">
+        <div class="col-12 col-xl-6">
+          <h2>StudySpots</h2>
+          <ul class="list-group roomRows">
+            <!-- Will contain room rows -->
+          </ul>
+        </div>
+        <div class="col-12 col-xl-6">
+          <h2>Vrije computers</h2>
+          <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+                  <div class="col-auto mr-auto">Huygenszaal</div>
+                  <div class="col-auto">.col-auto</div>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script>
+      let StudySpotsApi = 'http://localhost:8080/api';
+      let locationId    = 'UB';
+      let $roomRows     = $(".roomRows");
+
+      function showStudySpotsLocation(){
+        $.getJSON(`${StudySpotsApi}/locations/${locationId}`, function(data){
+          // Assign data
+          locationData  = data.location;
+          rooms         = locationData.rooms;
+
+          // Sort roomrows by floor
+          rooms.sort((a,b) => a.floor - b.floor);
+
+          // Render roomrows
+          rooms.forEach(renderRoomRow);
+        })
+      }
+
+      function renderRoomRow(room){
+        $roomRows.append(
+          `<li class="list-group-item" id="roomRow_${room.id}">
+            <div class="row">
+              <div class="col-12 col-md-4 roomDetails">
+                <span class="font-weight-bold">${room.floor}</span>
+                ${room.about.nl.name}
+              </div>
+              <div class="col-12 col-md-8 roomScore mt-1">
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                </div>
+              </div>
+            </div>
+          </li>`
+        );
+      }
+
+      function updateStudySpotsScores(){
+        $.getJSON(`${StudySpotsApi}/scores/${locationId}`, function(data){
+            // Assign data
+            scores = data.scores;
+
+            // Set the progressbars
+            for (const [roomId, score] of Object.entries(scores)) {
+              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", score);
+            }
+        });
+      }
+
+      function updateAvailableComputers(){
+        $.getJSON('UB-availablePCs.php', function(data){
+          console.log(data);
+        });
+      }
+
+      // Render location info
+      showStudySpotsLocation();
+
+      // (set the scores for studyspots)
+      window.setInterval(function(){
+          updateStudySpotsScores();
+          updateAvailableComputers();
+      }, 5000)
+    </script>
+  </body>
+</html>
