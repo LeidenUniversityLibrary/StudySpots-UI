@@ -8,25 +8,56 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- Fontawesome Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <style>
+      .progress-bar{
+        transition: width 2s;
+      }
+    </style>
   </head>
-  <body>
-    <div class="container-fluid">
-      <h1 class="display-1">UB</h1>
+  <body class="bg-warning">
+    <div class="container-fluid p-xs-2 p-xl-5">
+      <h1 class="display-1 mb-xl-5 text-white">UB</h1>
 
       <div class="row">
-        <div class="col-12 col-xl-6">
-          <h2>StudySpots</h2>
+        <div class="col-12 col-xl-6 mb-2">
+          <h2 class="mb-xl-4 text-white">
+            <span class="fa-stack">
+              <i class="fa fa-square-o fa-stack-2x"></i>
+              <i class="fa fa-map-marker fa-stack-1x" aria-hidden="true"></i>
+            </span>
+            &nbsp;StudySpots
+            <i class="fa fa-refresh fa-spin fa-fw studyspotsrefreshing"></i>
+          </h2>
           <ul class="list-group roomRows">
             <!-- Will contain room rows -->
           </ul>
         </div>
-        <div class="col-12 col-xl-6">
-          <h2>Vrije computers</h2>
+        <div class="col-12 col-xl-6 mb-2">
+          <h2 class="mb-xl-4 text-white">
+            <span class="fa-stack">
+              <i class="fa fa-square-o fa-stack-2x"></i>
+              <i class="fa fa-television fa-stack-1x" aria-hidden="true"></i>
+            </span>
+            &nbsp;&nbsp;Vrije computers
+            <i class="fa fa-refresh fa-spin fa-fw availablePCsrefreshing"></i>
+          </h2>
           <ul class="list-group">
             <li class="list-group-item">
                 <div class="row">
-                  <div class="col-auto mr-auto">Huygenszaal</div>
-                  <div class="col-auto">.col-auto</div>
+                  <div class="col-auto mr-auto pt-1">
+                    <span class="align-middle">
+                      Huygenszaal
+                    </span>
+                  </div>
+                  <div class="col-auto">
+                    <button type="button" class="btn btn-secondary">
+                      Vrije computers <span class="badge availablePCs"></span>
+                    </button>
+                  </div>
                 </div>
             </li>
           </ul>
@@ -40,12 +71,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
-      let StudySpotsApi = 'http://localhost:8080/api';
+      let StudySpotsApi = 'https://kerkuil.leidenuniv.nl/StudySpots/public/api';
       let locationId    = 'UB';
       let $roomRows     = $(".roomRows");
 
       function showStudySpotsLocation(){
-        $.getJSON(`${StudySpotsApi}/locations/${locationId}`, function(data){
+        return $.getJSON(`${StudySpotsApi}/locations/${locationId}`, function(data){
           // Assign data
           locationData  = data.location;
           rooms         = locationData.rooms;
@@ -55,7 +86,7 @@
 
           // Render roomrows
           rooms.forEach(renderRoomRow);
-        })
+        });
       }
 
       function renderRoomRow(room){
@@ -66,10 +97,13 @@
                 <span class="font-weight-bold">${room.floor}</span>
                 ${room.about.nl.name}
               </div>
-              <div class="col-12 col-md-8 roomScore mt-1">
+              <div class="col-11 col-md-7 roomScore mt-1">
                 <div class="progress">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                  <div class="bg-warning progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div>
                 </div>
+              </div>
+              <div class="col-1 text-center p-0">
+                <span class="badge badge-secondary">${room.about.nl.size}</span>
               </div>
             </div>
           </li>`
@@ -77,31 +111,49 @@
       }
 
       function updateStudySpotsScores(){
-        $.getJSON(`${StudySpotsApi}/scores/${locationId}`, function(data){
+        $(".studyspotsrefreshing").show();
+        return $.getJSON(`${StudySpotsApi}/scores/${locationId}`, function(data){
             // Assign data
             scores = data.scores;
 
             // Set the progressbars
             for (const [roomId, score] of Object.entries(scores)) {
-              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", score);
+              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", `${score}%`);
             }
+
+            // Hide the progress icon
+            $(".studyspotsrefreshing").hide();
         });
       }
 
       function updateAvailableComputers(){
-        $.getJSON('UB-availablePCs.php', function(data){
-          console.log(data);
+        $(".availablePCsrefreshing").hide();
+        return $.getJSON('UB-availablePCs.php', function(data){
+          $(".availablePCs").text(`${data.available} / ${data.total}`);
+          $(".availablePCsrefreshing").hide();
         });
       }
 
-      // Render location info
-      showStudySpotsLocation();
+      function timedUpdate(){
+        $.when.apply($, [
+          updateStudySpotsScores(),
+          updateAvailableComputers()
+        ]).done(function(){
+          // Schedule next update
+          window.setTimeout(function(){
+              timedUpdate();
+          }, 10000);
+        });
 
-      // (set the scores for studyspots)
-      window.setInterval(function(){
-          updateStudySpotsScores();
-          updateAvailableComputers();
-      }, 5000)
+
+
+      }
+
+      // Render location info
+      $.when(showStudySpotsLocation()).then(function(){
+        // Enable timed update
+        timedUpdate();
+    });
     </script>
   </body>
 </html>
