@@ -118,12 +118,18 @@
 
             // Set the progressbars
             for (const [roomId, score] of Object.entries(scores)) {
-              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", `${score}%`);
+              let calculatedScore = calculateStudySpotsScore(score);
+              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", `${calculatedScore}%`);
             }
 
             // Hide the progress icon
             $(".studyspotsrefreshing").hide();
         });
+      }
+
+      function calculateStudySpotsScore(score){
+        let calculated = score * 1.1;
+        return (calculated > 100 ? 100 : calculated);
       }
 
       function updateAvailableComputers(){
