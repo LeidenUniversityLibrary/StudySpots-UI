@@ -122,7 +122,8 @@
             // Set the progressbars
             for (const [roomId, score] of Object.entries(scores)) {
               let calculatedScore = calculateStudySpotsScore(score);
-              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", `${calculatedScore}%`);
+              let percentage = Math.floor(calculatedScore);
+              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", `${percentage}%`).text(`${percentage}% bezet`);
             }
 
             // Hide the progress icon
