@@ -79,12 +79,14 @@
       let $roomRows     = $(".roomRows");
 
       function showStudySpotsLocation(){
-        return $.getJSON(`${StudySpotsApi}/locations/${locationId}/rooms`, function(data){
+        return $.getJSON(StudySpotsApi + '/locations/' + locationId + '/rooms', function(data){
           // Assign data
           rooms = data.rooms;
 
           // Sort roomrows by floor
-          rooms.sort((a,b) => a.floor - b.floor);
+          rooms.sort(function(a,b) {
+            return a.floor - b.floor;
+          });
 
           // Render roomrows
           rooms.forEach(renderRoomRow);
@@ -93,32 +95,33 @@
 
       function renderRoomRow(room){
         $roomRows.append(
-          `<li class="list-group-item" id="roomRow_${room.id}">
-            <div class="row">
-              <div class="col-12 col-md-4 roomDetails">
-                <span class="font-weight-bold">${room.floor || ""}</span>
-                ${room.name}
-              </div>
-              <div class="col-12 col-md-8 roomScore mt-1">
-                <div class="progress">
-                  <div class="bg-warning progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div>
-                </div>
-              </div>
-            </div>
-          </li>`
+          '<li class="list-group-item" id="roomRow_' + room.id + '"> \
+            <div class="row"> \
+              <div class="col-12 col-md-4 roomDetails"> \
+                <span class="font-weight-bold">' + (room.floor !== null ? room.floor : '-') + '</span> \
+                ' + room.name + ' \
+              </div> \
+              <div class="col-12 col-md-8 roomScore mt-1"> \
+                <div class="progress"> \
+                  <div class="bg-warning progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div> \
+                </div> \
+              </div> \
+            </div> \
+          </li>'
         );
       }
 
       function updateStudySpotsScores(){
         $(".studyspotsrefreshing").show();
-        return $.getJSON(`${StudySpotsApi}/locations/${locationId}/rooms/scores`, function(data){
+        return $.getJSON(StudySpotsApi + '/locations/' + locationId + '/rooms/scores', function(data){
             // Assign data
             scores = data.scores;
 
             // Set the progressbars
-            for (const [index, scoreObject] of Object.entries(scores)) {
+            for (i=0;i<scores.length;i++) {
+              let scoreObject = scores[i];
               let percentage = Math.floor(scoreObject.score > 100 ? 100 : scoreObject.score);
-              $(`#roomRow_${scoreObject.roomId} .roomScore .progress-bar`).css("width", `${percentage}%`).text(`${percentage}% bezet`);
+              $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%').text(percentage + '% bezet');
             }
 
             // Hide the progress icon
@@ -133,7 +136,7 @@
       function updateAvailableComputers(){
         $(".availablePCsrefreshing").hide();
         return $.getJSON('UB-availablePCs.php', function(data){
-          $(".availablePCs").text(`${data.available} / ${data.total}`);
+          $(".availablePCs").text(data.available + ' / ' + data.total);
           $(".availablePCsrefreshing").hide();
         });
       }
