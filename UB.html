@@ -75,17 +75,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
       let StudySpotsApi = 'https://kerkuil.leidenuniv.nl/StudySpots/public/api';
-      let locationId    = 'UB';
+      let locationId    = '1';
       let $roomRows     = $(".roomRows");
 
       function showStudySpotsLocation(){
-        return $.getJSON(`${StudySpotsApi}/locations/${locationId}`, function(data){
+        return $.getJSON(StudySpotsApi + '/locations/' + locationId + '/rooms', function(data){
           // Assign data
-          locationData  = data.location;
-          rooms         = locationData.rooms;
+          rooms = data.rooms;
 
           // Sort roomrows by floor
-          rooms.sort((a,b) => a.floor - b.floor);
+          rooms.sort(function(a,b) {
+            return a.floor - b.floor;
+          });
 
           // Render roomrows
           rooms.forEach(renderRoomRow);
@@ -94,36 +95,33 @@
 
       function renderRoomRow(room){
         $roomRows.append(
-          `<li class="list-group-item" id="roomRow_${room.id}">
-            <div class="row">
-              <div class="col-12 col-md-4 roomDetails">
-                <span class="font-weight-bold">${room.floor}</span>
-                ${room.about.nl.name}
-              </div>
-              <div class="col-11 col-md-7 roomScore mt-1">
-                <div class="progress">
-                  <div class="bg-warning progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div>
-                </div>
-              </div>
-              <div class="col-1 text-center p-0">
-                <span class="badge badge-secondary">${room.about.nl.size}</span>
-              </div>
-            </div>
-          </li>`
+          '<li class="list-group-item" id="roomRow_' + room.id + '"> \
+            <div class="row"> \
+              <div class="col-12 col-md-4 roomDetails"> \
+                <span class="font-weight-bold">' + (room.floor !== null ? room.floor : '-') + '</span> \
+                ' + room.name + ' \
+              </div> \
+              <div class="col-12 col-md-8 roomScore mt-1"> \
+                <div class="progress"> \
+                  <div class="bg-warning progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div> \
+                </div> \
+              </div> \
+            </div> \
+          </li>'
         );
       }
 
       function updateStudySpotsScores(){
         $(".studyspotsrefreshing").show();
-        return $.getJSON(`${StudySpotsApi}/scores/${locationId}`, function(data){
+        return $.getJSON(StudySpotsApi + '/locations/' + locationId + '/rooms/scores', function(data){
             // Assign data
             scores = data.scores;
 
             // Set the progressbars
-            for (const [roomId, score] of Object.entries(scores)) {
-              let calculatedScore = calculateStudySpotsScore(score);
-              let percentage = Math.floor(calculatedScore);
-              $(`#roomRow_${roomId} .roomScore .progress-bar`).css("width", `${percentage}%`).text(`${percentage}% bezet`);
+            for (i=0;i<scores.length;i++) {
+              let scoreObject = scores[i];
+              let percentage = Math.floor(scoreObject.score > 100 ? 100 : scoreObject.score);
+              $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%').text(percentage + '% bezet');
             }
 
             // Hide the progress icon
@@ -132,14 +130,13 @@
       }
 
       function calculateStudySpotsScore(score){
-        let calculated = score * 1.1;
-        return (calculated > 100 ? 100 : calculated);
+        return score;
       }
 
       function updateAvailableComputers(){
         $(".availablePCsrefreshing").hide();
         return $.getJSON('UB-availablePCs.php', function(data){
-          $(".availablePCs").text(`${data.available} / ${data.total}`);
+          $(".availablePCs").text(data.available + ' / ' + data.total);
           $(".availablePCsrefreshing").hide();
         });
       }
