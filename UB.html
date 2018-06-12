@@ -121,7 +121,7 @@
             for (i=0;i<scores.length;i++) {
               let scoreObject = scores[i];
               let percentage = Math.floor(scoreObject.score > 100 ? 100 : scoreObject.score);
-              $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%').text(percentage + '% bezet');
+              $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%');
             }
 
             // Hide the progress icon
