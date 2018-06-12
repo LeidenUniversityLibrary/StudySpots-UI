@@ -19,51 +19,86 @@
         justify-content: start;
         padding-left: 1em;
       }
+
+      html, body{
+        height:100%;
+      }
+
+      .corner-ribbon{
+        width: 200px;
+        background: #e43;
+        position: absolute;
+        top: 25px;
+        left: -50px;
+        text-align: center;
+        line-height: 50px;
+        letter-spacing: 1px;
+        color: #f0f0f0;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+      }
+
+      .corner-ribbon.shadow{
+        box-shadow: 0 0 3px rgba(0,0,0,.3);
+      }
+
+      /* Different positions */
+
+      .corner-ribbon.top-left{
+        top: 25px;
+        left: -50px;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+      }
     </style>
   </head>
   <body class="bg-warning">
-    <div class="container-fluid p-xs-2 p-xl-5">
+    <div class="container-fluid p-xs-2 p-xl-5 d-flex flex-column h-100">
       <h1 class="display-1 mb-xl-5 text-white">UB</h1>
+      <h2 class="mb-xl-4 text-white">
+        <span class="fa-stack">
+          <i class="fa fa-square-o fa-stack-2x"></i>
+          <i class="fa fa-map-marker fa-stack-1x" aria-hidden="true"></i>
+        </span>
+        &nbsp;StudySpots
+        <i class="fa fa-refresh fa-spin fa-fw studyspotsrefreshing"></i>
+      </h2>
 
-      <div class="row">
-        <div class="col-12 col-xl-6 mb-2">
-          <h2 class="mb-xl-4 text-white">
-            <span class="fa-stack">
-              <i class="fa fa-square-o fa-stack-2x"></i>
-              <i class="fa fa-map-marker fa-stack-1x" aria-hidden="true"></i>
-            </span>
-            &nbsp;StudySpots
-            <i class="fa fa-refresh fa-spin fa-fw studyspotsrefreshing"></i>
-          </h2>
-          <ul class="list-group roomRows">
+      <div class="row" style="flex:1">
+
+        <!-- Left column -->
+        <div class="col-12 col-xl-6 mb-2 d-flex flex-column" id="column-left">
+
+
+          <h3 class="mb-xl-2 text-white">Main StudySpots</h3>
+          <ul class="list-group mainRoomRows">
+            <!-- Will contain room rows -->
+          </ul>
+
+          <h3 class="mt-auto mb-xl-2 text-white">Only for Asian Studies</h3>
+          <ul class="list-group asianStudiesRoomRows">
             <!-- Will contain room rows -->
           </ul>
         </div>
-        <div class="col-12 col-xl-6 mb-2">
-          <h2 class="mb-xl-4 text-white">
-            <span class="fa-stack">
-              <i class="fa fa-square-o fa-stack-2x"></i>
-              <i class="fa fa-television fa-stack-1x" aria-hidden="true"></i>
-            </span>
-            &nbsp;&nbsp;Vrije computers
-            <i class="fa fa-refresh fa-spin fa-fw availablePCsrefreshing"></i>
-          </h2>
-          <ul class="list-group">
-            <li class="list-group-item">
-                <div class="row">
-                  <div class="col-auto mr-auto pt-1">
-                    <span class="align-middle">
-                      Huygenszaal
-                    </span>
-                  </div>
-                  <div class="col-auto">
-                    <button type="button" class="btn btn-secondary">
-                      Vrije computers <span class="badge availablePCs"></span>
-                    </button>
-                  </div>
-                </div>
-            </li>
-          </ul>
+
+        <!-- Right column -->
+        <div class="col-12 col-xl-6 mb-2" id="column-right">
+          <div class="d-flex flex-column h-100">
+            <div>
+              <h3 class="mb-xl-2 text-white">Small StudySpots</h3>
+              <div class="row smallRooms">
+                <!-- SMALL ROOMS RENDERED HERE AS CARDS -->
+              </div>
+              <h3 class="mb-xl-2 text-white">Need a break?</h3>
+            </div>
+            <div style="flex:1;overflow:hidden; position:relative" class="bg-secondary">
+              <div class="corner-ribbon top-left bg-danger shadow">Café UBé</div>
+              <div class="cafeUbePeople">
+                <i class="fa fa-male text-white" style="font-size:20em;position:absolute;left:45%;top:5%"></i>
+                <i class="fa fa-female text-white" style="font-size:40em;position:absolute;top:30%;left:60%;"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -76,7 +111,6 @@
     <script>
       let StudySpotsApi = 'https://kerkuil.leidenuniv.nl/StudySpots/public/api';
       let locationId    = '1';
-      let $roomRows     = $(".roomRows");
 
       function showStudySpotsLocation(){
         return $.getJSON(StudySpotsApi + '/locations/' + locationId + '/rooms', function(data){
@@ -88,13 +122,25 @@
             return a.floor - b.floor;
           });
 
-          // Render roomrows
-          rooms.forEach(renderRoomRow);
+          // Render main roomrows
+          let $mainRooms = $(".mainRoomRows");
+          mainRooms = rooms.filter(room => ["Asian Library", "Café UBé", "S-UB Open Magazijn", "Ingang 5 verdieping 2","Ingang 2/3 verdieping 2"].indexOf(room.name) == -1);
+          mainRooms.forEach(room => renderRoomRow(room, $mainRooms));
+
+          // Render main roomrows
+          let $asianStudiesRooms = $(".asianStudiesRoomRows");
+          asianStudiesRooms = rooms.filter(room => room.name == "Asian Library");
+          asianStudiesRooms.forEach(room => renderRoomRow(room, $asianStudiesRooms, "bg-secondary"));
+
+          // Render small roomcards
+          let $smallRooms = $(".smallRooms");
+          smallRooms = rooms.filter(room => ["S-UB Open Magazijn", "Ingang 5 verdieping 2","Ingang 2/3 verdieping 2"].indexOf(room.name) > -1);
+          smallRooms.forEach(room => renderRoomCard(room, $smallRooms));
         });
       }
 
-      function renderRoomRow(room){
-        $roomRows.append(
+      function renderRoomRow(room, $container, backgroundClass){
+        $container.append(
           '<li class="list-group-item" id="roomRow_' + room.id + '"> \
             <div class="row"> \
               <div class="col-12 col-md-4 roomDetails"> \
@@ -103,11 +149,26 @@
               </div> \
               <div class="col-12 col-md-8 roomScore mt-1"> \
                 <div class="progress"> \
-                  <div class="bg-warning progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div> \
+                  <div class="'+ (backgroundClass ? backgroundClass : "bg-warning") +' progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%;"></div> \
                 </div> \
               </div> \
             </div> \
+            <div class="text-muted">No description</div> \
           </li>'
+        );
+      }
+
+      function renderRoomCard(room, $container){
+        $container.append(
+          '<div class="col-4"> \
+            <div class="card"> \
+              <div class="card-body"> \
+                <h5 class="card-title">' + room.name + '</h5> \
+                <h6 class="card-subtitle mb-2 text-muted">Floor ' + (room.floor !== null ? room.floor : '-') + '</h6> \
+                <p class="card-text">No description</p> \
+              </div> \
+            </div> \
+          </div>'
         );
       }
 
@@ -129,18 +190,9 @@
         });
       }
 
-      function updateAvailableComputers(){
-        $(".availablePCsrefreshing").hide();
-        return $.getJSON('UB-availablePCs.php', function(data){
-          $(".availablePCs").text(data.available + ' / ' + data.total);
-          $(".availablePCsrefreshing").hide();
-        });
-      }
-
       function timedUpdate(){
         $.when.apply($, [
-          updateStudySpotsScores(),
-          updateAvailableComputers()
+          updateStudySpotsScores()
         ]).done(function(){
           // Schedule next update
           window.setTimeout(function(){
@@ -156,7 +208,7 @@
       $.when(showStudySpotsLocation()).then(function(){
         // Enable timed update
         timedUpdate();
-    });
+      });
     </script>
   </body>
 </html>
