@@ -91,9 +91,25 @@
               </div>
               <h3 class="mb-xl-2 text-white">Need a break?</h3>
             </div>
-            <div style="flex:1;overflow:hidden; position:relative" class="bg-secondary">
+            <div style="flex:1;overflow:hidden; position:relative; background-color:rgb(213, 213, 213)">
               <div class="corner-ribbon top-left bg-danger shadow" style="z-index:200">Café UBé</div>
               <div class="cafeUbePeople">
+              </div>
+              <div class="text-center">
+                <div class="btn-group btn-group-toggle mt-2" style="z-index:200" data-toggle="buttons">
+                  <label class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Quiet
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Normal
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Busy
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Crowded
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -171,13 +187,13 @@
       }
 
       function addRandomPerson(){
-        let baseSize = 5;
+        let baseSize = 3;
         let positionLeft = -5 + randomNumber(100);
         let positionTop = 1 + randomNumber(80);
         let size = baseSize + (positionTop * 0.4);
         let colorInt = 128 + Math.round(positionTop * 1.3);
         let isFemale = Math.random() >= 0.5;
-        $('<i class="personIcon fa fa-'+(isFemale ? 'fe' : '')+'male" style="display:none;z-index:'+positionTop+';color:rgb('+colorInt+','+colorInt+','+colorInt+');font-size:'+size+'em;position:absolute;left:'+positionLeft+'%;top:'+positionTop+'%"></i>').prependTo(".cafeUbePeople").fadeIn(200);
+        $('<i class="personIcon fa fa-'+(isFemale ? 'fe' : '')+'male" style="display:none;z-index:'+positionTop+';color:rgb('+colorInt+','+colorInt+','+colorInt+');font-size:'+size+'em;position:absolute;left:'+positionLeft+'%;top:'+positionTop+'%"></i>').prependTo(".cafeUbePeople");
       }
 
       function randomNumber(max){
@@ -203,9 +219,41 @@
               $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%');
             }
 
+            // Set the persons
+            updateCafeUb(scores.filter(scoreObject => scoreObject.roomName == "Café UBé")[0]);
+
             // Hide the progress icon
             $(".studyspotsrefreshing").hide();
         });
+      }
+
+      /*
+       * Add or remove person icons until the target score is reached
+       */
+      function updateCafeUb(scoreObject){
+        let currentCount = $(".cafeUbePeople .personIcon").length;
+        let countToDisplay = Math.round(scoreObject.score / 2);
+
+        if(currentCount < countToDisplay){
+          let iconsToAdd = countToDisplay - currentCount;
+          for(i=0;i<iconsToAdd;i++){
+            addRandomPerson();
+          }
+
+          // Cascade show next
+          (function shownext(jq){
+              jq.eq(0).fadeIn("fast", function(){
+                  (jq=jq.slice(1)).length && shownext(jq);
+              });
+          })($('.cafeUbePeople .personIcon:hidden'));
+        }
+
+        if(currentCount > countToDisplay){
+          let iconsToRemove = currentCount - countToDisplay;
+          for(i=0;i<iconsToRemove;i++){
+            removeRandomPerson();
+          }
+        }
       }
 
       function timedUpdate(){
@@ -217,9 +265,6 @@
               timedUpdate();
           }, 10000);
         });
-
-
-
       }
 
       // Render location info
