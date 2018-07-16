@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 
     <!-- Fontawesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -54,20 +54,23 @@
   </head>
   <body class="bg-warning">
     <div class="container-fluid p-xs-2 p-xl-5 d-flex flex-column h-100">
-      <h1 class="display-1 mb-xl-5 text-white">UB</h1>
-      <h2 class="mb-xl-4 text-white">
-        <span class="fa-stack">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-map-marker fa-stack-1x" aria-hidden="true"></i>
-        </span>
-        &nbsp;StudySpots
-        <i class="fa fa-refresh fa-spin fa-fw studyspotsrefreshing"></i>
-      </h2>
+
+      <div class="d-flex flex-row align-items-center justify-content-between">
+        <h1 class="display-1 mb-xl-5 text-white">UB</h1>
+        <h2 class="mb-xl-4 text-white">
+          <i class="fa fa-refresh fa-spin fa-fw studyspotsrefreshing"></i>&nbsp;
+          <span class="fa-stack">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-map-marker fa-stack-1x" aria-hidden="true"></i>
+          </span>
+          &nbsp;StudySpots
+        </h2>
+      </div>
 
       <div class="row" style="flex:1">
 
         <!-- Left column -->
-        <div class="col-12 col-xl-6 mb-2 d-flex flex-column" id="column-left">
+        <div class="col-6 mb-2 d-flex flex-column" id="column-left">
 
 
           <h3 class="mb-xl-2 text-white">Main StudySpots</h3>
@@ -82,7 +85,7 @@
         </div>
 
         <!-- Right column -->
-        <div class="col-12 col-xl-6 mb-2" id="column-right">
+        <div class="col-6 mb-2" id="column-right">
           <div class="d-flex flex-column h-100">
             <div>
               <h3 class="mb-xl-2 text-white">Small StudySpots</h3>
@@ -91,7 +94,7 @@
               </div>
               <h3 class="mb-xl-2 text-white">Need a break?</h3>
             </div>
-            <div style="flex:1;overflow:hidden; position:relative; background-color:rgb(213, 213, 213)">
+            <div class="flex-grow-1 position-relative" style="overflow:hidden;background-color:rgb(213, 213, 213)">
               <div class="corner-ribbon top-left bg-danger shadow" style="z-index:200">Café UBé</div>
               <div class="cafeUbePeople">
               </div>
@@ -120,8 +123,8 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
     <script>
       let StudySpotsApi = 'https://kerkuil.leidenuniv.nl/StudySpots/public/api';
       let locationId    = '1';
