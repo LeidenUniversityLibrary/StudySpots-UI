@@ -95,18 +95,18 @@
               <div class="corner-ribbon top-left bg-danger shadow" style="z-index:200">Café UBé</div>
               <div class="cafeUbePeople">
               </div>
-              <div class="text-center">
+              <div class="text-center cafeubindicator">
                 <div class="btn-group btn-group-toggle mt-2" style="z-index:200" data-toggle="buttons">
-                  <label class="btn btn-secondary active">
+                  <label class="btn btn-secondary active studyspots-radioselect studyspots-quiet">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked> Quiet
                   </label>
-                  <label class="btn btn-secondary">
+                  <label class="btn btn-secondary studyspots-radioselect studyspots-normal">
                     <input type="radio" name="options" id="option2" autocomplete="off"> Normal
                   </label>
-                  <label class="btn btn-secondary">
+                  <label class="btn btn-secondary studyspots-radioselect studyspots-busy">
                     <input type="radio" name="options" id="option3" autocomplete="off"> Busy
                   </label>
-                  <label class="btn btn-secondary">
+                  <label class="btn btn-secondary studyspots-radioselect studyspots-crowded">
                     <input type="radio" name="options" id="option3" autocomplete="off"> Crowded
                   </label>
                 </div>
@@ -219,8 +219,14 @@
               $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%');
             }
 
-            // Set the persons
-            updateCafeUb(scores.filter(scoreObject => scoreObject.roomName == "Café UBé")[0]);
+            // Get the Café UBé score
+            let cafeUbeScoreObj = scores.filter(scoreObject => scoreObject.roomName == "Café UBé")[0];
+
+            // Set the Café UBé persons
+            updateCafeUbPeople(cafeUbeScoreObj);
+
+            // set the Café UBé indicator
+            updateCafeUbIndicator(cafeUbeScoreObj);
 
             // Hide the progress icon
             $(".studyspotsrefreshing").hide();
@@ -230,7 +236,7 @@
       /*
        * Add or remove person icons until the target score is reached
        */
-      function updateCafeUb(scoreObject){
+      function updateCafeUbPeople(scoreObject){
         let currentCount = $(".cafeUbePeople .personIcon").length;
         let countToDisplay = Math.round(scoreObject.score / 2);
 
@@ -253,6 +259,25 @@
           for(i=0;i<iconsToRemove;i++){
             removeRandomPerson();
           }
+        }
+      }
+
+      /*
+      * Update the indicator above the people display
+      */
+      function updateCafeUbIndicator(scoreObject){
+        let $indicator = $(".cafeubindicator");
+
+        $indicator.find(".studyspots-radioselect").removeClass("active btn-success btn-warning btn-danger").addClass("btn-secondary");
+
+        if(scoreObject.score <= 20){
+          $indicator.find(".studyspots-radioselect.studyspots-quiet").removeClass("btn-secondary").addClass("btn-success active");
+        }else if(scoreObject.score <= 60){
+          $indicator.find(".studyspots-radioselect.studyspots-normal").removeClass("btn-secondary").addClass("btn-success active");
+        }else if(scoreObject.score <= 85){
+          $indicator.find(".studyspots-radioselect.studyspots-busy").removeClass("btn-secondary").addClass("btn-warning active");
+        }else{
+          $indicator.find(".studyspots-radioselect.studyspots-crowded").removeClass("btn-secondary").addClass("btn-danger active");
         }
       }
 
