@@ -1,0 +1,63 @@
+@font-face {
+    font-family: Vestula;
+    src: url("https://lampje.leidenuniv.nl/webassets/PrimoNewUI/fonts/vestula-regular.woff2") format("woff2"), url("https://lampje.leidenuniv.nl/webassets/PrimoNewUI/fonts/vestula-regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
+}
+
+@font-face {
+    font-family: Vestula;
+    src: url("https://lampje.leidenuniv.nl/webassets/PrimoNewUI/fonts/vestula-semibold.woff2") format("woff2"), url("https://lampje.leidenuniv.nl/webassets/PrimoNewUI/fonts/vestula-semibold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal
+}
+
+.progress-bar {
+    transition: width 2s;
+    white-space: nowrap;
+    justify-content: start;
+    padding-left: 1em;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: vestula, verdana, sans-serif;
+    background-color: #F5F5F5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #001158;
+}
+
+.corner-ribbon {
+    width: 200px;
+    background: #e43;
+    position: absolute;
+    top: 25px;
+    left: -50px;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.shadow {
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+}
+
+/* Different positions */
+
+.corner-ribbon.top-left {
+    top: 25px;
+    left: -50px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
