@@ -102,11 +102,35 @@ function updateStudySpotsScores() {
         scores = data.scores;
 
         // Set the progressbars
+        var bars = $('.progress');
         for (i = 0; i < scores.length; i++) {
             var scoreObject = scores[i];
             var percentage = Math.floor(scoreObject.score > 100 ? 100 : scoreObject.score);
             $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%');
+
+            var progress = $(scores[i]);
+            $(bars[i]).width(progress + '%');
+            if (percentage >= 80) {
+                $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-danger");
+            } else if (percentage >= 50 && percentage < 79) {
+                $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-warning");
+            } else if (percentage >= 30 && percentage < 49) {
+                $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-success");
+            } else if (percentage < 30) {
+                $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-info");
+            }
+
+            /* if (percentage <= 20) {
+                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-info");
+            } else if (percentage <= 60) {
+                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-success");
+            } else if (percentage <= 85) {
+                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-warning");
+            } else {
+                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-danger");
+            } */
         }
+
 
         // Get the Café UBé score
         var cafeUbeScoreObj = scores.filter(function (scoreObject) {
