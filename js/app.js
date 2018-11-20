@@ -54,7 +54,7 @@ function renderRoomRow(room, $container, backgroundClass) {
                 </div> \
               </div> \
             </div> \
-            <div class="text-muted">No description</div> \
+            <div class="text-muted"></div> \
           </li>'
     );
 }
@@ -66,7 +66,7 @@ function renderRoomCard(room, $container) {
               <div class="card-body"> \
                 <h5 class="card-title">' + room.name + '</h5> \
                 <h6 class="card-subtitle mb-2 text-muted">Floor ' + (room.floor !== null ? room.floor : '-') + '</h6> \
-                <p class="card-text">No description</p> \
+                <p class="card-text"></p> \
               </div> \
             </div> \
           </div>'
@@ -102,13 +102,14 @@ function updateStudySpotsScores() {
         scores = data.scores;
 
         // Set the progressbars
-        var bars = $('.progress');
+        
         for (i = 0; i < scores.length; i++) {
             var scoreObject = scores[i];
             var percentage = Math.floor(scoreObject.score > 100 ? 100 : scoreObject.score);
             $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%');
-
-            var progress = $(scores[i]);
+           
+            /* var bars = $('.progress');
+           var progress = $(scores[i]);
             $(bars[i]).width(progress + '%');
             if (percentage >= 80) {
                 $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-danger");
@@ -118,18 +119,9 @@ function updateStudySpotsScores() {
                 $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-success");
             } else if (percentage < 30) {
                 $(bars[i]).find(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-info");
-            }
-
-            /* if (percentage <= 20) {
-                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-info");
-            } else if (percentage <= 60) {
-                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-success");
-            } else if (percentage <= 85) {
-                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-warning");
-            } else {
-                $(".progress-bar.progress-bar-striped.progress-bar-animated").removeClass("bg-warning").addClass("bg-danger");
             } */
-        }
+
+               }
 
 
         // Get the Café UBé score
@@ -203,7 +195,7 @@ function timedUpdate() {
         // Schedule next update
         window.setTimeout(function () {
             timedUpdate();
-        }, 10000);
+        }, 60000);
     });
 }
 
