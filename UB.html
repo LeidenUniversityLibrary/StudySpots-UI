@@ -17,10 +17,56 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- <a class="navbar-brand" href="#">Leiden University Libraries</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="StudySpotsNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/using-the-library">Using the Library</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/search-tools">Search Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/training">Training</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/research-and-publishing">Research &
+            Publishing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/special-collections">Special Collections</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/about-us">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.library.universiteitleiden.nl/support-us">Support Us</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
   <div class="container">
     <div class="row">
-    <h1>Leiden University Libraries - StudySpots <i class="fas fa-sync fa-spin fa-fw studyspotsrefreshing"></i></h1>
+      <div class="jumbotron">
+        <h1 class="display-4">Leiden University Libraries - StudySpots <i class="fas fa-sync fa-spin fa-fw studyspotsrefreshing"></i></h1>
+        <p class="lead">"How busy is it a the UB?"</p>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Leiden University's Study Spots is updated every minute and gives <strong>an indication</strong> of how busy the
+            study rooms at the Leiden University Library - Main Building - currently are.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+      </div>
     </div>
+
     <!-- Left column -->
     <div class="row">
       <div class="col-12" id="column-left">
@@ -37,37 +83,37 @@
       </div>
     </div>
     <div class="row">
-        <!-- Right column -->
-        <div class="col-12" id="column-right">
-          <div class="d-flex flex-column h-100"></div>
-          <div>
-            <h3 class="mb-xl-2 " style="display:none;">Small StudySpots</h3>
-            <div class="row smallRooms" style="display:none;">
-              <!-- SMALL ROOMS RENDERED HERE AS CARDS -->
-            </div>
-            <h3 class="mb-xl-2 ">Café UBé</h3>
+      <!-- Right column -->
+      <div class="col-12" id="column-right">
+        <div class="d-flex flex-column h-100"></div>
+        <div>
+          <h3 class="mb-xl-2 " style="display:none;">Small StudySpots</h3>
+          <div class="row smallRooms" style="display:none;">
+            <!-- SMALL ROOMS RENDERED HERE AS CARDS -->
           </div>
-          <div class="flex-grow-1 position-relative" style="overflow:hidden;background-color:rgb(213, 213, 213)">
-            <div class="cafeUbePeople">
-            </div>
-            <div class="text-center cafeubindicator">
-              <div class="btn-group btn-group-toggle mt-2" style="z-index:200" data-toggle="buttons">
-                <label class="btn btn-secondary active studyspots-radioselect studyspots-quiet">
-                  <input type="radio" name="options" id="option1" autocomplete="off" checked> Quiet
-                </label>
-                <label class="btn btn-secondary studyspots-radioselect studyspots-normal">
-                  <input type="radio" name="options" id="option2" autocomplete="off"> Normal
-                </label>
-                <label class="btn btn-secondary studyspots-radioselect studyspots-busy">
-                  <input type="radio" name="options" id="option3" autocomplete="off"> Busy
-                </label>
-                <label class="btn btn-secondary studyspots-radioselect studyspots-crowded">
-                  <input type="radio" name="options" id="option3" autocomplete="off"> Crowded
-                </label>
-              </div>
+          <h3 class="mb-xl-2 ">Café UBé</h3>
+        </div>
+        <div class="flex-grow-1 position-relative" style="overflow:hidden;background-color:rgb(213, 213, 213)">
+          <div class="cafeUbePeople">
+          </div>
+          <div class="text-center cafeubindicator">
+            <div class="btn-group btn-group-toggle mt-2" style="z-index:200" data-toggle="buttons">
+              <label class="btn btn-secondary active studyspots-radioselect studyspots-quiet">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Quiet
+              </label>
+              <label class="btn btn-secondary studyspots-radioselect studyspots-normal">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Normal
+              </label>
+              <label class="btn btn-secondary studyspots-radioselect studyspots-busy">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Busy
+              </label>
+              <label class="btn btn-secondary studyspots-radioselect studyspots-crowded">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Crowded
+              </label>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
   <!-- Optional JavaScript -->
