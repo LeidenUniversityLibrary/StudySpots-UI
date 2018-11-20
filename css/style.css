@@ -61,3 +61,30 @@ h6 {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
 }
+
+.progress-bar {
+    background-color: #001158 !important;
+}
+
+nav.navbar {
+    background-color: #7f88ab;
+}
+
+.navbar-nav {
+    float: none;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+.navbar-nav>li {
+    display: inline-block;
+    float: none;
+}
+
+.jumbotron {
+    text-align: center;
+    margin: 1rem 1rem;
+    padding: 1rem 1rem;
+    width: 100%;
+}
