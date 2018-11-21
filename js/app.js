@@ -73,26 +73,18 @@ function renderRoomCard(room, $container) {
     );
 }
 
-function addRandomPerson() {
-    var baseSize = 3;
-    var positionLeft = -5 + randomNumber(100);
-    var positionTop = 1 + randomNumber(80);
-    var size = baseSize + (positionTop * 0.4);
-    var colorInt = 128 + Math.round(positionTop * 1.3);
-    var isFemale = Math.random() >= 0.5;
-    $('<i class="personIcon fa fa-' + (isFemale ? 'fe' : '') + 'male" style="display:none;z-index:' + positionTop + ';color:rgb(' + colorInt + ',' + colorInt + ',' + colorInt + ');font-size:' + size + 'em;position:absolute;left:' + positionLeft + '%;top:' + positionTop + '%"></i>').prependTo(".cafeUbePeople");
-}
+/* Available Compouters */
+
+function updateAvailableComputers(){
+    $(".availablePCsrefreshing").hide();
+    return $.getJSON('UB-availablePCs.php', function(data){
+      $(".availablePCs").text(data.available + ' / ' + data.total);
+      $(".availablePCsrefreshing").hide();
+    });
+  }
 
 function randomNumber(max) {
     return Math.floor(Math.random() * max) + 1
-}
-
-function removeRandomPerson($container) {
-    // Remove an element with the class person from the container
-    $persons = $(".cafeUbePeople .personIcon");
-    $($persons[Math.floor(Math.random() * $persons.length)]).fadeOut(200, function () {
-        $(this).remove();
-    });
 }
 
 function updateStudySpotsScores() {
@@ -129,44 +121,12 @@ function updateStudySpotsScores() {
             return scoreObject.roomName == "Café UBé";
         })[0];
 
-        // Set the Café UBé persons
-        updateCafeUbPeople(cafeUbeScoreObj);
-
         // set the Café UBé indicator
         updateCafeUbIndicator(cafeUbeScoreObj);
 
         // Hide the progress icon
         $(".studyspotsrefreshing").hide();
     });
-}
-
-/*
- * Add or remove person icons until the target score is reached
- */
-function updateCafeUbPeople(scoreObject) {
-    var currentCount = $(".cafeUbePeople .personIcon").length;
-    var countToDisplay = Math.round(scoreObject.score / 2);
-
-    if (currentCount < countToDisplay) {
-        var iconsToAdd = countToDisplay - currentCount;
-        for (i = 0; i < iconsToAdd; i++) {
-            addRandomPerson();
-        }
-
-        // Cascade show next
-        (function shownext(jq) {
-            jq.eq(0).fadeIn("fast", function () {
-                (jq = jq.slice(1)).length && shownext(jq);
-            });
-        })($('.cafeUbePeople .personIcon:hidden'));
-    }
-
-    if (currentCount > countToDisplay) {
-        var iconsToRemove = currentCount - countToDisplay;
-        for (i = 0; i < iconsToRemove; i++) {
-            removeRandomPerson();
-        }
-    }
 }
 
 /*
@@ -190,6 +150,7 @@ function updateCafeUbIndicator(scoreObject) {
 
 function timedUpdate() {
     $.when.apply($, [
+        updateAvailableComputers(),
         updateStudySpotsScores()
     ]).done(function () {
         // Schedule next update
