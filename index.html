@@ -13,13 +13,13 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
     crossorigin="anonymous">
   <!-- Our CSS -->
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark">
     <!-- <a class="navbar-brand" href="#">Leiden University Libraries</a> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04"
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#StudySpotsNav" aria-controls="StudySpotsNav"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -70,50 +70,73 @@
     <!-- Left column -->
     <div class="row">
       <div class="col-12" id="column-left">
-<div class="mainStudySpots my-1">
-        <h3>Main StudySpots</h3>
-        <ul class="list-group mainRoomRows">
-          <!-- Will contain room rows -->
-        </ul>
+        <div class="mainStudySpots my-1">
+          <h3>Main StudySpots</h3>
+          <ul class="list-group mainRoomRows">
+            <!-- Will contain room rows -->
+          </ul>
+        </div>
+        <div class="asianLibrary my-2">
+          <h3>Asian Library</h3>
+          <ul class="list-group asianStudiesRoomRows">
+            <!-- Will contain room rows -->
+          </ul>
+        </div>
+        <div class="availableComputers my-1">
+          <h3>
+            Available Computers
+            <i class="fas fa-refresh fa-spin fa-fw availablePCsrefreshing"></i>
+          </h3>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-auto mr-auto pt-1">
+                  <span class="align-middle">
+                    Huygenszaal
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-secondary">
+                    Available Computers <span class="badge availablePCs"></span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="asianLibrary my-2">
-        <h3>Asian Library</h3>
-        <ul class="list-group asianStudiesRoomRows">
-          <!-- Will contain room rows -->
-        </ul>
-      </div>
-      </div>
+ 
 
 
       <!-- Right column -->
       <div class="col-12" id="column-right">
         <div class="coffee my-2">
-        <h3>Café UBé</h3>
-        <small class="text-muted">For when you need a break...</small>
-        <div class="text-center cafeubindicator">
-          <div class="btn-group btn-group-toggle mt-2" style="z-index:200" data-toggle="buttons">
-            <label class="btn btn-secondary active studyspots-radioselect studyspots-quiet">
-              <input type="radio" name="options" id="option1" autocomplete="off" checked> Quiet
-            </label>
-            <label class="btn btn-secondary studyspots-radioselect studyspots-normal">
-              <input type="radio" name="options" id="option2" autocomplete="off"> Normal
-            </label>
-            <label class="btn btn-secondary studyspots-radioselect studyspots-busy">
-              <input type="radio" name="options" id="option3" autocomplete="off"> Busy
-            </label>
-            <label class="btn btn-secondary studyspots-radioselect studyspots-crowded">
-              <input type="radio" name="options" id="option3" autocomplete="off"> Crowded
-            </label>
+          <h3>Café UBé</h3>
+          <small class="text-muted">For when you need a break...</small>
+          <div class="text-center cafeubindicator">
+            <div class="btn-group btn-group-toggle mt-2" style="z-index:200" data-toggle="buttons">
+              <label class="btn btn-secondary active studyspots-radioselect studyspots-quiet">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Quiet
+              </label>
+              <label class="btn btn-secondary studyspots-radioselect studyspots-normal">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Normal
+              </label>
+              <label class="btn btn-secondary studyspots-radioselect studyspots-busy">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Busy
+              </label>
+              <label class="btn btn-secondary studyspots-radioselect studyspots-crowded">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Crowded
+              </label>
+            </div>
+          </div>
+          <div class="d-flex flex-column h-100"></div>
+          <div>
+            <h3 class="mb-xl-2 " style="display:none;">Small StudySpots</h3>
+            <div class="row smallRooms" style="display:none;">
+              <!-- SMALL ROOMS RENDERED HERE AS CARDS -->
+            </div>
           </div>
         </div>
-        <div class="d-flex flex-column h-100"></div>
-        <div>
-          <h3 class="mb-xl-2 " style="display:none;">Small StudySpots</h3>
-          <div class="row smallRooms" style="display:none;">
-            <!-- SMALL ROOMS RENDERED HERE AS CARDS -->
-          </div>
-        </div>
-</div>
       </div>
     </div>
   </div>
@@ -124,7 +147,7 @@
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
-  <script src="/js/app.js" crossorigin="anonymous"></script>
+  <script src="js/app.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
