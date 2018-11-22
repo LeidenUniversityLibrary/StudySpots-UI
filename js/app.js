@@ -45,8 +45,8 @@ function renderRoomRow(room, $container, backgroundClass) {
         '<li class="list-group-item" id="roomRow_' + room.id + '"> \
             <div class="row"> \
               <div class="col-12 col-md-4 roomDetails"> \
-                <span class="font-weight-bold">' + (room.floor !== null ? room.floor : '-') + '</span> \
-                ' + room.name + ' \
+                <span class="font-weight-bold">Floor ' + (room.floor !== null ? room.floor : '-') + ' -</span> \
+               ' + room.name + ' \
               </div> \
               <div class="col-12 col-md-8 roomScore mt-1"> \
                 <div class="progress"> \
@@ -98,7 +98,7 @@ function updateStudySpotsScores() {
         for (i = 0; i < scores.length; i++) {
             var scoreObject = scores[i];
             var percentage = Math.floor(scoreObject.score > 100 ? 100 : scoreObject.score);
-            $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%');
+            $('#roomRow_' + scoreObject.roomId + ' .roomScore .progress-bar').css("width", percentage + '%').text(percentage + '% full');;
            
             /* var bars = $('.progress');
            var progress = $(scores[i]);
